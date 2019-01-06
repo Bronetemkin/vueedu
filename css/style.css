@@ -1,0 +1,57 @@
+body {
+    background: #616161;
+}
+
+.card-item {
+    margin: 2px;
+    height: 95%;
+    width: 35%;
+}
+
+.card-item-title div h1 {
+    float: left;
+    margin-left: 10%;
+    width: 5%;
+}
+
+.card-item-content {
+    float: left;
+    margin-left: 5%;
+    margin-top: 1%;
+    width: 100%;
+}
+
+.card-item-title-text {
+    margin-left: 2%;
+}
+
+.card-item-worktype {
+    background: orangered;
+    border-radius: 30%;
+    padding: 4px;
+}
+
+.card-item-status {
+    border-radius: 10%;
+    min-width: 1%;
+    min-height: 50%;
+    float: left;
+    width: 1%;
+    height: 30%;
+    background: green;
+}
+
+.card-item-status-worktype {
+    border-radius: 10%;
+    min-width: 1%;
+    min-height: 50%;
+    float: left;
+    width: 1%;
+    height: 70%;
+    background: greenyellow;
+}
+
+.card-item-element {
+    font-size: large;
+    padding: 2px;
+}

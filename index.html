@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <!--<script src="./js/main.js"></script>-->
+    <style>
+        * {
+            font-family: Roboto, serif;
+        }
+
+        body {
+            background: #616161;
+        }
+
+        .card-item {
+            margin: 2px;
+            height: 95%;
+            width: 55%;
+        }
+
+        .card-item-title div h1 {
+            float: left;
+            margin-left: 10%;
+            width: 5%;
+            font-size: large;
+        }
+
+        .card-item-content {
+            float: left;
+            margin-left: 4%;
+            margin-top: 1%;
+            width: 100%;
+        }
+
+        .card-item-title-text {
+            margin-left: 2%;
+            font-size: x-large;
+        }
+
+        .card-item-worktype {
+            background: orangered;
+            border-radius: 30%;
+            padding: 4px;
+            font-size: medium;
+        }
+
+        .card-item-status {
+            border-radius: 10%;
+            float: left;
+            width: 1%;
+            height: 100%;
+            background: green;
+        }
+
+        .card-item-element {
+            color: #bebebe;
+            font-size: large;
+            padding: 2px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Some test timetable</title>
+</head>
+<body>
+<div id="app" @contextmenu.prevent="">
+    <v-btn outline color="green" dark>Some button</v-btn>
+    <v-layout dark row wrap>
+        <v-flex sm6 offset-sm3 v-for="item in somelist" :key="item.id">
+            <v-card class="card-item" dark @contextmenu.prevent="onRightClickCard">
+                <div class="card-item-status"></div>
+                <v-card-title primary-title>
+                    <div class="card-item-worktype" v-bind:style="{ backgroundColor: item.color }">{{ item.workname }}</div>
+                    <div class="card-item-title-text">{{ item.name }}</div>
+                    <div class="card-item-content">
+                        <div id="time" class="card-item-element">
+                            <v-icon small color="#bebebe">access_time</v-icon>
+                            {{ item.time }}
+                        </div>
+                        <div id="room" class="card-item-element">
+                            <v-icon small color="#bebebe">home</v-icon>
+                            {{ item.room }}
+                        </div>
+                        <div id="teacher" class="card-item-element">
+                            <v-icon small color="#bebebe">person</v-icon>
+                            {{ item.teacher }}
+                        </div>
+                    </div>
+                </v-card-title>
+            </v-card>
+        </v-flex>
+    </v-layout>
+    <v-card-actions>
+        <v-btn flat v-on:click="clear">Share</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn flat v-on:click="iterate">Explore</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn flat>Huh?</v-btn>
+
+    </v-card-actions>
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            fileUrl: 'https://drive.google.com/uc?authuser=0&export=download&id=1UusVthMHS1uzHke_7ZCqcDdGWPhe3SAp',
+            some: 'Hello!',
+            count: 0,
+            listSize: 10,
+            items: [
+                'Some',
+                'Elements',
+                'Inside',
+                'Some',
+                'Elements',
+                'Inside',
+                'Some',
+                'Elements',
+                'Inside',
+                'Some',
+                'Elements',
+                'Inside',
+                'Some',
+                'Elements',
+                'Inside'
+            ]
+        },
+        methods: {
+            iterate: function () {
+                this.count += 110;
+            },
+            clear: function () {
+                this.count = 0;
+            },
+            loadFile: function () {
+                fetch(this.fileUrl, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (myJson) {
+                            some = myJson;
+                            alert(myJson);
+                        })
+                        .catch(function (e) {
+                            alert(e);
+                        });
+            },
+            onRightClick: function (e) {
+                alert("on right click");
+                e.preventDefault();
+            },
+            onRightClickCard: function (e) {
+                alert("on right click card");
+                e.preventDefault();
+            },
+            generateList: function (size) {
+                result = [];
+                for (i = 0; i < size; i++) {
+                    result[i] = {
+                        id: i,
+                        type: i % 3,
+                        name: "Lesson " + i,
+                        time: (i % 24) + ":00 - " + ((i + 1) % 24) + ":00",
+                        room: "40" + (i % 10),
+                        teacher: "Teacher " + i,
+                        color: this.getWorkTypeColor(i % 3),
+                        workname: this.getWorkTypeName(i % 3)
+                    }
+                }
+                return result;
+            },
+            getWorkTypeColor: function (type) {
+                switch (type) {
+                    case 0: {
+                        return "green";
+                    }
+                    case 1: {
+                        return "yellow";
+                    }
+                    case 2: {
+                        return "red";
+                    }
+                    default: {
+                        return "green";
+                    }
+                }
+            },
+            getWorkTypeName: function (type) {
+                switch (type) {
+                    case 0: {
+                        return "L"
+                    }
+                    case 1: {
+                        return "P"
+                    }
+                    case 2: {
+                        return "L/W"
+                    }
+                    default: {
+                        return "X3"
+                    }
+                }
+            }
+        },
+        created: function () {
+        },
+        computed: {
+            somelist: function () {
+                return this.generateList(this.listSize);
+            }
+        }
+    });
+</script>
+</body>
+</html>
